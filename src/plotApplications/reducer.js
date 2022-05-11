@@ -1,4 +1,3 @@
-
 // @flow
 import merge from 'lodash/merge';
 
@@ -17,7 +16,9 @@ import type {
   ReceiveIsSaveClickedAction,
   ReceiveCollapseStatesAction,
   ReceiveFormValidFlagsAction,
+  ReceiveApplicationRelatedFormAction
 } from '$src/plotApplications/types';
+import type {ReceiveApplicationRelatedAttachmentsAction} from "./types";
 
 
 const isFetchingReducer: Reducer<boolean> = handleActions({
@@ -90,6 +91,32 @@ const isFormValidByIdReducer: Reducer<Object> = handleActions({
   [FormNames.PLOT_APPLICATION]: true,
 });
 
+const formReducer: Reducer<Object> = handleActions({
+  ['mvj/plotApplications/FETCH_FORM']: () => null,
+  ['mvj/plotApplications/RECEIVE_FORM']: (state: Object, { payload: form }: ReceiveApplicationRelatedFormAction) => {
+    return form;
+  }
+}, null);
+
+const isFetchingFormReducer: Reducer<boolean> = handleActions({
+  ['mvj/plotApplications/FETCH_FORM']: () => true,
+  ['mvj/plotApplications/RECEIVE_FORM']: () => false,
+  ['mvj/plotApplications/FORM_NOT_FOUND']: () => false,
+}, false);
+
+const attachmentReducer: Reducer<Object> = handleActions({
+  ['mvj/plotApplications/FETCH_ATTACHMENTS']: () => null,
+  ['mvj/plotApplications/RECEIVE_ATTACHMENTS']: (state: Object, { payload: attachments }: ReceiveApplicationRelatedAttachmentsAction) => {
+    return attachments;
+  },
+}, null);
+
+const isFetchingAttachmentsReducer: Reducer<boolean> = handleActions({
+  ['mvj/plotApplications/FETCH_ATTACHMENTS']: () => true,
+  ['mvj/plotApplications/RECEIVE_ATTACHMENTS']: () => false,
+  ['mvj/plotApplications/ATTACHMENTS_NOT_FOUND']: () => false,
+}, false);
+
 export default combineReducers<Object, any>({
   isFetching: isFetchingReducer,
   list: plotApplicationsListReducer,
@@ -101,4 +128,8 @@ export default combineReducers<Object, any>({
   isSaveClicked: isSaveClickedReducer,
   collapseStates: collapseStatesReducer,
   isFormValidById: isFormValidByIdReducer,
+  form: formReducer,
+  isFetchingForm: isFetchingFormReducer,
+  attachments: attachmentReducer,
+  isFetchingAttachments: isFetchingAttachmentsReducer
 });

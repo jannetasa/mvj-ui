@@ -21,6 +21,12 @@ import type {
   ClearFormValidFlagsAction,
   EditPlotApplicationAction,
   ApplicationsNotFoundAction,
+  ApplicationRelatedFormNotFoundAction,
+  FetchApplicationRelatedFormAction,
+  ReceiveApplicationRelatedFormAction,
+  FetchApplicationRelatedAttachmentsAction,
+  ReceiveApplicationRelatedAttachmentsAction,
+  ApplicationRelatedAttachmentsNotFoundAction
 } from './types';
 
 export const fetchPlotApplicationsList = (search: string): FetchPlotApplicationsListAction =>
@@ -70,3 +76,21 @@ export const clearFormValidFlags = (): ClearFormValidFlagsAction =>
 
 export const editPlotApplication = (plotApplication: PlotApplication): EditPlotApplicationAction =>
   createAction('mvj/plotApplications/EDIT')(plotApplication);
+
+export const fetchApplicationRelatedForm = (payload: Object): FetchApplicationRelatedFormAction =>
+  createAction('mvj/plotApplications/FETCH_FORM')(payload);
+
+export const receiveApplicationRelatedForm = (payload: Object): ReceiveApplicationRelatedFormAction =>
+  createAction('mvj/plotApplications/RECEIVE_FORM')(payload);
+
+export const applicationRelatedFormNotFound = (payload: Object): ApplicationRelatedFormNotFoundAction =>
+  createAction('mvj/plotApplications/FORM_NOT_FOUND')(payload);
+
+export const fetchApplicationRelatedAttachments = (payload: Object): FetchApplicationRelatedAttachmentsAction =>
+  createAction('mvj/plotApplications/FETCH_ATTACHMENTS')(payload);
+
+export const receiveApplicationRelatedAttachments = (payload: Object): ReceiveApplicationRelatedAttachmentsAction =>
+  createAction('mvj/plotApplications/RECEIVE_ATTACHMENTS')(payload);
+
+export const applicationRelatedAttachmentsNotFound = (payload: Object): ApplicationRelatedAttachmentsNotFoundAction =>
+  createAction('mvj/plotApplications/ATTACHMENTS_NOT_FOUND')(payload);

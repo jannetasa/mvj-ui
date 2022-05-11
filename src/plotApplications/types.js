@@ -40,3 +40,11 @@ export type ClearFormValidFlagsAction = Action<'mvj/plotApplications/CLEAR_FORM_
 export type ReceiveCollapseStatesAction = Action<'mvj/plotApplications/RECEIVE_COLLAPSE_STATES', Object>;
 
 export type EditPlotApplicationAction = Action<'mvj/plotApplications/EDIT', PlotApplication>;
+
+export type FetchApplicationRelatedFormAction = Action<'mvj/plotApplications/FETCH_FORM', void>;
+export type ReceiveApplicationRelatedFormAction = Action<'mvj/plotApplications/RECEIVE_FORM', Object>;
+export type ApplicationRelatedFormNotFoundAction = Action<'mvj/plotApplications/FORM_NOT_FOUND', void>;
+
+export type FetchApplicationRelatedAttachmentsAction = Action<'mvj/plotApplications/FETCH_ATTACHMENTS', void>;
+export type ReceiveApplicationRelatedAttachmentsAction = Action<'mvj/plotApplications/RECEIVE_ATTACHMENTS', Object>;
+export type ApplicationRelatedAttachmentsNotFoundAction = Action<'mvj/plotApplications/ATTACHMENTS_NOT_FOUND', void>;
