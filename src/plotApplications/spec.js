@@ -24,9 +24,20 @@ import plotApplicationReducer from './reducer';
 import type {PlotApplicationsState} from './types';
 
 const baseState: PlotApplicationsState = {
+  attachmentAttributes: null,
+  attachmentMethods: null,
+  attachments: null,
   attributes: null,
+  fieldTypeMapping: {},
+  form: null,
   isFetching: false,
+  isFetchingAttachmentAttributes: false,
+  isFetchingAttachments: false,
   isFetchingAttributes: false,
+  isFetchingForm: false,
+  isFetchingPendingUploads: false,
+  isPerformingFileOperation: false,
+  isSaving: false,
   list: {},
   methods: null,
   current: {},
@@ -36,6 +47,7 @@ const baseState: PlotApplicationsState = {
   isFormValidById: {
     'plot-application': true,
   },
+  pendingUploads: []
 };
 
 // $FlowFixMe
@@ -170,7 +182,7 @@ describe('PlotApplication', () => {
         expect(state).to.deep.equal(newState);
       });
 
-      it('shoyauld clear isFormValidById', () => {
+      it('should clear isFormValidById', () => {
         const newState = {...baseState};
 
         let state = plotApplicationReducer({}, receiveFormValidFlags({['plot-application']: false}));
@@ -178,13 +190,15 @@ describe('PlotApplication', () => {
         expect(state).to.deep.equal(newState);
       });
 
-      it('should update isFetching flag to true by editPlotApplication', () => {
+      it('should update isFetching and isSaving flags to true by editPlotApplication', () => {
         const newState = {...baseState};
         newState.isFetching = true;
+        newState.isSaving = true;
+
 
         const state = plotApplicationReducer({}, editPlotApplication({}));
         expect(state).to.deep.equal(newState);
-      });      
+      });
 
       it('should update collapseStates', () => {
         const newState = {...baseState, collapseStates: {foo: 'bar', foo2: 'bar2'}};
@@ -193,7 +207,7 @@ describe('PlotApplication', () => {
         state = plotApplicationReducer(state, receiveCollapseStates({foo2: 'bar2'}));
         expect(state).to.deep.equal(newState);
       });
-    
+
     });
   });
 });

@@ -30,7 +30,6 @@ import {FormNames, Methods, PermissionMissingTexts} from '$src/enums';
 import PageContainer from '$components/content/PageContainer';
 import {withPlotApplicationsAttributes} from '$components/attributes/PlotApplicationsAttributes';
 import Pagination from '$components/table/Pagination';
-import CreatePlotApplicationsModal from './CreatePlotApplicationsModal';
 import VisualisationTypeWrapper from '$components/table/VisualisationTypeWrapper';
 import MapIcon from '$components/icons/MapIcon';
 import {
@@ -129,7 +128,7 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
       fetchPlotSearchList,
     } = this.props;
     setPageTitle('Tonttihakemukset');
-    
+
     receiveTopNavigationSettings({
       linkUrl: getRouteById(Routes.PLOT_APPLICATIONS),
       pageTitle: 'Tonttihakemukset',
@@ -165,19 +164,6 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  hideCreatePlotApplicationsModal = () => {
-    this.setState({isModalOpen: false});
-  }
-
-  handleCreatePlotApplications = () => {
-    const {history, location: {search}} = this.props;
-
-    return history.push({
-      pathname: `${getRouteById(Routes.PLOT_APPLICATIONS)}/1`,
-      search: search,
-    });
   }
 
   setSearchFormValues = () => {
@@ -225,8 +211,12 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
     fetchPlotApplicationsList(searchQuery);
   }
 
-  openModalhandleCreatePlotApplication = () => {
-    this.setState({isModalOpen: true});
+  openCreatePlotApplication = () => {
+    const {history} = this.props;
+
+    history.push({
+      pathname: `${getRouteById(Routes.PLOT_APPLICATIONS)}/new`,
+    });
   }
 
   updateTableData = () => {
@@ -249,7 +239,7 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
       key: 'plot_search',
       text: 'Haku',
       sortable: false,
-      renderer: (id) => id 
+      renderer: (id) => id
         ? <ExternalLink href={'/tonttihaku/'} text={id}/> // getReferenceNumberLink(id)
         : null,
     });
@@ -278,7 +268,7 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
       key: 'target_identifier',
       text: 'Kohteen hakemustunnus',
       sortable: false,
-      renderer: (id) => id 
+      renderer: (id) => id
         ? <ExternalLink href={'/'} text={id}/> // getReferenceNumberLink(id)
         : null,
     });
@@ -311,7 +301,7 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
 
   handleSearchUpdated = (query: Object, resetActivePage?: boolean = true) => {
     const {history} = this.props;
-    
+
     if(resetActivePage) {
       this.setState({activePage: 1});
       delete query.page;
@@ -356,20 +346,13 @@ class PlotApplicationsListPage extends PureComponent<Props, State> {
 
     return (
       <PageContainer>
-        <Authorization allow={isMethodAllowed(plotApplicationsMethods, Methods.POST)}>
-          <CreatePlotApplicationsModal
-            isOpen={isModalOpen}
-            onClose={this.hideCreatePlotApplicationsModal}
-            onSubmit={this.handleCreatePlotApplications}
-          />
-        </Authorization>
         <Row>
           <Column small={12} large={4}>
             <Authorization allow={isMethodAllowed(plotApplicationsMethods, Methods.POST)}>
               <AddButtonSecondary
                 className='no-top-margin'
                 label='Luo tonttihakemus'
-                onClick={this.openModalhandleCreatePlotApplication}
+                onClick={this.openCreatePlotApplication}
               />
             </Authorization>
           </Column>
